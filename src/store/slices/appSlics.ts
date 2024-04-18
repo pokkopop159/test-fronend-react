@@ -26,7 +26,7 @@ const appSlice = createSlice({
             const itemKey = action.payload
             console.log("key", itemKey)
             state.data = state.data.filter((item) => item.key !== itemKey)
-            // localStorage.setItem('Data', JSON.stringify(state.data))
+            localStorage.setItem('Data', JSON.stringify(state.data))
         }
         }
     },)
