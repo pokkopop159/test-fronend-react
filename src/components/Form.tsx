@@ -7,7 +7,7 @@ import { useAppDispatch } from '../store/store'
 import { useTranslation } from 'react-i18next'
 
 
-const DataForm = () => {
+const DataForm: React.FC = () => {
   const { Option } = Select
   const [form] = Form.useForm()
   const dispatch = useAppDispatch()

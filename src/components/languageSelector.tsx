@@ -2,7 +2,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import {  Select } from 'antd'
 
-const languageSelector = () => {
+const languageSelector: React.FC = () => {
   const {i18n, t} = useTranslation()
 
   const items = [

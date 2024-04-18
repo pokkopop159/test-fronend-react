@@ -15,7 +15,7 @@ interface DataType {
 }
 
 
-const Tabledata = () => {
+const Tabledata: React.FC = () => {
     const { t } = useTranslation()
     const appReducer = useSelector(appSelector)
     const dispatch = useAppDispatch()

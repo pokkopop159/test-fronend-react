@@ -3,7 +3,7 @@ import Form from "../components/Form"
 import Table from "../components/Table"
 
 
-const test2 = () => {
+const test2: React.FC = () => {
   const { t } = useTranslation()
   
 

@@ -4,7 +4,7 @@ import  LanguageSelector  from './components/languageSelector'
 import { RouterProvider } from 'react-router-dom'
 import routers from './routers'
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className='container'>
       <LanguageSelector />

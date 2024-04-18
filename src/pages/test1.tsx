@@ -14,7 +14,7 @@ import {
   ThunderboltFilled,
  } from '@ant-design/icons'
 
-const test1 = () => {
+const test1: React.FC = () => {
   return (
     <>
     <Flex justify='center'>
