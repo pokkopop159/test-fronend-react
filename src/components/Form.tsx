@@ -1,24 +1,28 @@
 import { Button, DatePicker, Form, Input, Radio, Select } from 'antd'
-import React, { useEffect } from 'react'
-import { adddata, appSelector, savedata } from '../store/slices/appSlics'
-import { useSelector } from 'react-redux'
-import { useForm } from 'antd/es/form/Form'
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { adddata, savedata } from '../store/slices/appSlics'
 import { useAppDispatch } from '../store/store'
 import { useTranslation } from 'react-i18next'
+import Editform from './Editform'
+
+interface EditProps {
+  isEditProps: boolean
+  setIsEditProps?: Dispatch<SetStateAction<boolean>>
+  keyProps: React.Key
+}
 
 
-const DataForm: React.FC = () => {
-  const { Option } = Select
+const DataForm = ({ setIsEditProps, isEditProps, keyProps }: EditProps) => {
   const [form] = Form.useForm()
   const dispatch = useAppDispatch()
   const { t } = useTranslation()
 
   const rules = [{
-    required: true, 
+    required: true,
     message: t('Please input!')
   }]
   const rulesSelect = [{
-    required: true, 
+    required: true,
     message: t('Please select!')
   }]
   const Nationality = [
@@ -49,31 +53,23 @@ const DataForm: React.FC = () => {
     window.location.reload()
   }
 
+
   useEffect(() => {
-    if( localStorage.getItem("Data")){
+    if (localStorage.getItem("Data")) {
       const save = JSON.parse(localStorage.getItem("Data") || "")
       dispatch(savedata(save))
     }
   }, [])
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
-
   const randomkey = Math.floor(Math.random() * 88888)
 
-  
-  
+
+
   return (
     <div className='Flexbox'>
-    <Form  form={form} name='dataForm' onFinish={onFinish} >
+      <Form form={form} name='dataForm' onFinish={onFinish} >
         <Form.Item label={t('Name Titles')} name='tname' rules={rulesSelect} >
-          <Select 
+          <Select
             options={[
               { value: "Mr.", label: "Mr." },
               { value: "Mrs.", label: "Mrs." },
@@ -87,17 +83,17 @@ const DataForm: React.FC = () => {
         <Form.Item label={t("Last Name")} name='lname' rules={rules} >
           <Input />
         </Form.Item>
-        <Form.Item label={t('Date')}  rules={rules}>
+        <Form.Item label={t('Date')} name="date" rules={rules}>
           <DatePicker placeholder={t('MM/DD/YYYY')} format='MM/DD/YYYY/' />
         </Form.Item>
         <Form.Item label={t('Nationality')} name='nationality' rules={rulesSelect} >
-          <Select options={Nationality}/>
+          <Select options={Nationality} />
         </Form.Item>
         <Form.Item label={t('ID Card')} name='idcard'>
-          <Input type='number' />
+          <Input />
         </Form.Item>
         <Form.Item label={t('Gender')} name='gender' rules={rulesSelect}>
-          <Radio.Group options={[t('Male'), t('Female'), t('Not specified')]}/>
+          <Radio.Group options={[t('Male'), t('Female'), t('Not specified')]} />
         </Form.Item>
         <Form.Item label={t('Phone')} name='phone' rules={rules} >
           <Input />
@@ -106,13 +102,18 @@ const DataForm: React.FC = () => {
           <Input />
         </Form.Item>
         <Form.Item label={t('Expected Salary')} name='salary' rules={rules} >
-          <Input type='number'/>
+          <Input type='number' />
         </Form.Item>
-        <Form.Item>
-          <Button type='default' htmlType='reset'>{t("reset")}</Button>
-          <Button type='primary' htmlType='submit' >{t("submit")}</Button>
-        </Form.Item>
+            <Form.Item>
+              <Button type='default' htmlType='reset'>{t("reset")}</Button>
+              <Button type='primary' htmlType='submit' >{t("submit")}</Button>
+            </Form.Item>
       </Form>
+      {isEditProps ? (
+        <Editform isEditProps={isEditProps} setIsEditProps={setIsEditProps} keyProps={keyProps}/>
+      ) : (
+        []
+      )} 
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { Button } from 'antd'
+import { Button, Card, Flex } from 'antd'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
@@ -10,10 +10,10 @@ const Home: React.FC = () => {
   return (
     <>
       <div className="box">
-        <ul>
-          <Button onClick={() => navigate('/test1')}>test1</Button>
-          <Button onClick={() => navigate('/test2')}>test2</Button>
-        </ul>
+        <Flex>
+          <Card onClick={() => navigate('/test1')} hoverable>{t("test1")}</Card>
+          <Card onClick={() => navigate('/test2')} hoverable>{t("test2")}</Card>
+        </Flex>
       </div>
     </>
   )

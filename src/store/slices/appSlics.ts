@@ -1,10 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-import Item from "antd/es/list/Item";
 
 type StateProps = {
     data: string[],
-    key: React.Key,
 }
 
 const initialValue: StateProps = {
@@ -25,12 +23,25 @@ const appSlice = createSlice({
         deletedata: (state, action) => {
             const itemKey = action.payload
             console.log("key", itemKey)
-            state.data = state.data.filter((item) => item.key !== itemKey)
+            console.log("type ===> ", typeof (itemKey))
+            state.data = state.data.filter((item: any) => {
+                if (typeof (itemKey) != 'object') {
+                    return item.key !== itemKey
+                } else {
+                    if (!itemKey.includes(item.key)) {
+                        return item
+                    }
+                }
+            })
             localStorage.setItem('Data', JSON.stringify(state.data))
-        }
+        },
+        editdata: (state, action) => {
+
+        },
+    
         }
     },)
 
-export const { adddata, savedata, deletedata } = appSlice.actions
+export const { adddata, savedata, deletedata, editdata} = appSlice.actions
 export default appSlice.reducer
 export const appSelector = (state:RootState) => state.appReducer

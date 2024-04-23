@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import { useSelector } from "react-redux"
 import { appSelector, deletedata } from "../store/slices/appSlics"
 import { useAppDispatch } from "../store/store"
@@ -14,13 +14,18 @@ interface DataType {
     nationality: string;
 }
 
+interface EditProps {
+    isEditProps: boolean
+    setIsEditProps?: Dispatch<SetStateAction<boolean>>
+    setKeyProps?: Dispatch<SetStateAction<any>>
+}
 
-const Tabledata: React.FC = () => {
+const Tabledata = ({ setIsEditProps, isEditProps, setKeyProps } : EditProps) => {
     const { t } = useTranslation()
     const appReducer = useSelector(appSelector)
     const dispatch = useAppDispatch()
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>();
-    const data =  appReducer.data
+    const data: object = appReducer.data
 
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
         console.log('selectedRowKeys changed: ', newSelectedRowKeys);
@@ -33,8 +38,16 @@ const Tabledata: React.FC = () => {
     }
 
     const handleDelete = (key: React.Key[]) => {
-        console.log("กดเเล้ว",key)
         dispatch(deletedata(key))
+    }
+
+    const handleEdit = (key: React.Key) => {
+        if(setKeyProps){
+        setKeyProps(key)
+        }
+        if(setIsEditProps){
+        setIsEditProps(true)
+        }
     }
 
     const columns: TableColumnsType<DataType> = [
@@ -44,7 +57,7 @@ const Tabledata: React.FC = () => {
             dataIndex: 'fname',
             showSorterTooltip: { target: 'full-header' },
             sorter: (a, b) => a.fname.length - b.fname.length,
-            sortDirections: ['descend'],
+            // sortDirections: ['descend'],
         },
         {
             title: t('Last Name'),
@@ -52,7 +65,6 @@ const Tabledata: React.FC = () => {
             key: 'lname',
             showSorterTooltip: { target: 'full-header' },
             sorter: (a, b) => a.lname.length - b.lname.length,
-            sortDirections: ['descend'],
         },
         {
             title: t('Phone'),
@@ -71,7 +83,12 @@ const Tabledata: React.FC = () => {
         {
             title: t('Action'),
             key: 'action',
-            render: (_ , record) => <a onClick={() => handleDelete(record.key)}>{t("Delete")}</a>
+            render: (_, record: any) => (
+                <Space>
+                    <a onClick={() => handleEdit(record.key)}>{t("Edit")}</a>
+                    <a onClick={() => handleDelete(record.key)}>{t("Delete")}</a>
+                </Space>
+            )
         }
     ]
 

@@ -11,12 +11,10 @@ body {
             align-items: center;
         }
         .box {
-            height: 500px;
+            height: 90vh;
             display: flex;
-            justify-content: space-around;
-            ul {
-                
-            }
+            align-content: center;
+            justify-content: center;
         }
 
         .Flexbox{
